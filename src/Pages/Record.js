@@ -1,7 +1,11 @@
+import React from "react";
+
 function Record() {
     return (
         <div>
-            Landing page
+            Record page
         </div>
     )
 }
+
+export default Record

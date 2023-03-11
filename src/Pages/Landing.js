@@ -1,7 +1,15 @@
+import React from "react";
+import './Landing.css'
 function Landing() {
     return (
-        <div>
-            Landing page
-        </div>
+        <div className="Landing">
+              <header className="Landing-header">
+                <p>
+                  Interview Helper!
+                </p>
+              </header>
+            </div>
     )
 }
+
+export default Landing

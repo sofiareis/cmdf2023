@@ -1,7 +1,12 @@
+import React from "react";
+
 function Feedback() {
     return (
         <div>
-            Landing page
+            Feedback page
         </div>
     )
 }
+
+
+export default Feedback
