@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './Record.css';
 import { QUESTION_BANK, shuffleNumbers } from '../../constants';
 import { VideoRecorder } from '../../webcam/VideoRecorder';
-import { Button, Radio, Space, Divider } from 'antd';
+import { Button } from 'antd';
 import {
     FastForwardOutlined,
     PlayCircleOutlined,
@@ -11,6 +11,8 @@ import {
 import SpeechRecognition, {
     useSpeechRecognition,
 } from 'react-speech-recognition';
+import { useNavigate } from 'react-router-dom';
+import Stopwatch from '../../webcam/Stopwatch';
 
 const RECORDING = 'recording';
 const DONE = 'done';
@@ -33,9 +35,14 @@ function Record() {
     const webcamRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const [recordedChunks, setRecordedChunks] = useState([]);
-    const [feedback, setFeedback] = useState('');
+    const [clarifyFeedback, setClarityFeedback] = useState('');
+    const [timeFeedback, setTimeFeedback] = useState('');
     // capture states: recording, done, next_question
     const [capturing, setCapturing] = useState(NEXT_QUESTION);
+
+    // stopwatch
+    const [time, setTime] = useState(0);
+    const [running, setRunning] = useState(false);
 
     const {
         transcript,
@@ -45,6 +52,32 @@ function Record() {
         resetTranscript,
         browserSupportsSpeechRecognition,
     } = useSpeechRecognition();
+
+    let navigate = useNavigate();
+    const routeChange = (wordChoice, tone, timing) => {
+        navigate('/feedback', {
+            state: {
+                question: question,
+                wordChoice: wordChoice,
+                tone: tone,
+                clarity: clarifyFeedback,
+                timing: timing,
+            },
+        });
+    };
+
+    // stopwatch
+    useEffect(() => {
+        let interval;
+        if (running) {
+            interval = setInterval(() => {
+                setTime((prevTime) => prevTime + 10);
+            }, 10);
+        } else if (!running) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [running]);
 
     useEffect(() => {
         if (finalTranscript !== '') {
@@ -63,6 +96,8 @@ function Record() {
 
     const handleStartCaptureClick = useCallback(() => {
         setCapturing(RECORDING);
+        // start stopwatch
+        setRunning(true);
         resetTranscript();
         mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
             mimeType: 'video/webm',
@@ -86,6 +121,10 @@ function Record() {
 
     const handleStopCaptureClick = useCallback(() => {
         setCapturing(DONE);
+
+        // stop stopwatch
+        setRunning(false);
+
         mediaRecorderRef.current.stop();
         SpeechRecognition.stopListening();
     }, [mediaRecorderRef, setCapturing]);
@@ -107,22 +146,40 @@ function Record() {
         }
     }, [recordedChunks]);
 
+    const mapTimeToSeconds = () => {
+        const mins = ('0' + Math.floor((time / 60000) % 60)).slice(-2) * 1;
+        const seconds = ('0' + Math.floor((time / 1000) % 60)).slice(-2) * 1;
+
+        return mins * 60 + seconds;
+    };
+
     const sendVideoTranscript = (response) => {
         setCapturing(NEXT_QUESTION);
         console.log('sending transcript to server');
-        const encodedResponse = encodeURIComponent(response);
+        let answer = response;
+        if (!response) {
+            answer = 'null';
+        }
+
+        const encodedResponse = encodeURIComponent(answer);
         fetch(`http://127.0.0.1:5000/feedback?answer=${encodedResponse}`, {
             method: 'GET',
         })
             .then((response) => response.json())
-            .then((response) => {
+            .then(async (response) => {
                 console.log(response);
-                setFeedback('sentiment: ' + response['sentiment']);
+                routeChange(
+                    response['word_choice'],
+                    response['sentiment'],
+                    mapTimeToSeconds(time)
+                );
             });
     };
 
     const nextQuestion = () => {
         setCapturing(NEXT_QUESTION);
+        // reset stopwatch
+        setTime(0);
         // increment question index
         let nextQuestionIndex = questionIndex + 1;
 
@@ -140,6 +197,8 @@ function Record() {
 
     const restartQuestion = useCallback(() => {
         setCapturing(NEXT_QUESTION);
+        // reset stopwatch
+        setTime(0);
         mediaRecorderRef.current.stop();
         SpeechRecognition.stopListening();
     }, [mediaRecorderRef, setCapturing]);
@@ -153,6 +212,7 @@ function Record() {
                     {question}
                 </p>
             </div>
+            <Stopwatch time={time} />
             {capturing === RECORDING ? (
                 <div className='record-action-buttons'>
                     <Button
@@ -192,7 +252,7 @@ function Record() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: '#4849B8',
+                            color: '#000',
                         }}
                     >
                         Restart
@@ -234,7 +294,7 @@ function Record() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: '#4849B8',
+                            color: '#000',
                         }}
                     >
                         Skip Question
