@@ -1,30 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Feedback.css';
-import { Progress, Button } from 'antd';
+import { Progress, Button, Modal, Input } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 function Feedback() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [email, setEmail] = useState('');
     const location = useLocation();
     const question = location.state.question;
     const wordChoice = location.state.wordChoice;
     const tone = location.state.tone;
     const clarity = location.state.clarity;
     const timing = location.state.timing;
+    const response = location.state.response;
 
     let navigate = useNavigate();
     const recordAgain = () => {
+        saveFeedback();
         navigate('/record');
     };
 
     const endInterview = () => {
+        saveFeedback();
+        setIsModalOpen(true);
         incrementQuestionIndex();
-        navigate('/');
     };
 
     const nextQuestion = () => {
+        saveFeedback();
         incrementQuestionIndex();
         navigate('/record');
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const sendEmailGoHome = () => {
+        if (email) {
+            // attempt to send
+            const allFeedback = JSON.parse(
+                localStorage.getItem('sessionFeedback')
+            );
+            console.log(allFeedback);
+            console.log(email);
+
+            // send email asynchronously
+            fetch(`http://127.0.0.1:5000/email`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    feedback: allFeedback, // array of object feedbacks
+                }),
+            });
+        }
+
+        localStorage.removeItem('sessionFeedback'); // clear session storage
+        navigate('/');
     };
 
     const incrementQuestionIndex = () => {
@@ -36,6 +73,35 @@ function Feedback() {
         }
 
         localStorage.setItem('currentQuestionIndex', nextQuestionIndex);
+    };
+
+    // only persist feedback from current session
+    // format is an array of {question, wordChoice, tone, clarity, timing}
+    const saveFeedback = () => {
+        let questionFeedback = {
+            question: question,
+            response: response,
+            wordChoice:
+                wordChoice.charAt(0).toUpperCase() + wordChoice.slice(1),
+            tone: tone.charAt(0).toUpperCase() + tone.slice(1),
+            clarity: clarity.charAt(0).toUpperCase() + clarity.slice(1),
+            timing: timing,
+        };
+        let sessionFeedback = localStorage.getItem('sessionFeedback');
+
+        if (!sessionFeedback) {
+            localStorage.setItem(
+                'sessionFeedback',
+                JSON.stringify([questionFeedback])
+            );
+        } else {
+            let itemFeedbacks = JSON.parse(sessionFeedback); // array of question feedbacks
+            itemFeedbacks.push(questionFeedback);
+            localStorage.setItem(
+                'sessionFeedback',
+                JSON.stringify(itemFeedbacks)
+            );
+        }
     };
 
     // returns a num between 1 and 100
@@ -212,6 +278,22 @@ function Feedback() {
                     Next Question
                 </Button>
             </div>
+            <Modal
+                className='font-face-apercu'
+                title='Save Your Feedback'
+                open={isModalOpen}
+                okText={email ? 'Send Email' : 'Go Home'}
+                onOk={sendEmailGoHome}
+                onCancel={handleCancel}
+            >
+                <p className='font-face-apercu'>
+                    Email feedback results for this session:
+                </p>
+                <Input
+                    placeholder='Email'
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </Modal>
         </div>
     );
 }

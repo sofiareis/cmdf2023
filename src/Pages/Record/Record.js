@@ -53,7 +53,7 @@ function Record() {
     } = useSpeechRecognition();
 
     let navigate = useNavigate();
-    const routeChange = (wordChoice, tone, clarity, timing) => {
+    const routeChange = (wordChoice, tone, clarity, timing, response) => {
         navigate('/feedback', {
             state: {
                 question: question,
@@ -61,6 +61,7 @@ function Record() {
                 tone: tone,
                 clarity: clarity,
                 timing: timing,
+                response: response,
             },
         });
     };
@@ -158,7 +159,7 @@ function Record() {
         console.log('sending transcript to server');
         let answer = response;
         if (!response) {
-            answer = 'null';
+            answer = 'No response';
         }
 
         const encodedResponse = encodeURIComponent(answer);
@@ -172,7 +173,8 @@ function Record() {
                     response['word_choice'],
                     response['sentiment'],
                     response['clarity'],
-                    mapTimeToSeconds(time)
+                    mapTimeToSeconds(time),
+                    answer
                 );
             });
     };
