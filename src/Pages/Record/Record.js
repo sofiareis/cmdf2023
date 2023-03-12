@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './Record.css';
 import { QUESTION_BANK, shuffleNumbers } from '../../constants';
 import { VideoRecorder } from '../../webcam/VideoRecorder';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import {
     FastForwardOutlined,
     PlayCircleOutlined,
@@ -19,6 +19,7 @@ const DONE = 'done';
 const NEXT_QUESTION = 'next_question';
 
 function Record() {
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [questionIndex, setQuestionIndex] = useState(() => {
         let startIndex = localStorage.getItem('currentQuestionIndex');
 
@@ -152,6 +153,7 @@ function Record() {
     };
 
     const sendVideoTranscript = (response) => {
+        setIsSubmitting(true);
         setCapturing(NEXT_QUESTION);
         console.log('sending transcript to server');
         let answer = response;
@@ -204,126 +206,138 @@ function Record() {
 
     return (
         <div className='record-background'>
-            <div className='record-spacer' />
-            <VideoRecorder webcamRef={webcamRef} />
-            <div className='font-face-apercu record-question'>
-                <p className='record-question-text' style={{ fontSize: 25 }}>
-                    {question}
-                </p>
-            </div>
-            <Stopwatch time={time} />
-            {capturing === RECORDING ? (
-                <div className='record-action-buttons'>
-                    <Button
-                        onClick={handleStopCaptureClick}
-                        type='primary'
-                        icon={<CloseCircleOutlined />}
-                        size={'large'}
-                        className='font-face-apercu'
-                        style={{
-                            background: '#4849B8',
-                            fontSize: 20,
-                            paddingTop: 15,
-                            paddingBottom: 15,
-                            width: 200,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        Stop Recording
-                    </Button>
+            <Spin
+                className='font-face-apercu-medium spinner'
+                size='large'
+                tip='Getting feedback'
+                spinning={isSubmitting}
+            >
+                <div className='record-spacer' />
+                <VideoRecorder webcamRef={webcamRef} />
+                <div className='record-centered'>
+                    <div className='font-face-apercu record-question'>
+                        <p
+                            className='record-question-text'
+                            style={{ fontSize: 25 }}
+                        >
+                            {question}
+                        </p>
+                    </div>
+                    <Stopwatch time={time} />
                 </div>
-            ) : capturing === DONE ? (
-                <div className='record-action-buttons'>
-                    <Button
-                        onClick={restartQuestion}
-                        type='primary'
-                        icon={<FastForwardOutlined />}
-                        size={'large'}
-                        className='font-face-apercu'
-                        style={{
-                            background: '#979FD4',
-                            fontSize: 20,
-                            paddingTop: 15,
-                            paddingBottom: 15,
-                            width: 200,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#000',
-                        }}
-                    >
-                        Restart
-                    </Button>
-                    <Button
-                        onClick={() => sendVideoTranscript(transcript)}
-                        type='primary'
-                        icon={<PlayCircleOutlined />}
-                        size={'large'}
-                        className='font-face-apercu'
-                        style={{
-                            background: '#4849B8',
-                            fontSize: 20,
-                            paddingTop: 15,
-                            paddingBottom: 15,
-                            width: 200,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        Submit
-                    </Button>
-                </div>
-            ) : (
-                <div className='record-action-buttons'>
-                    <Button
-                        onClick={nextQuestion}
-                        type='primary'
-                        icon={<FastForwardOutlined />}
-                        size={'large'}
-                        className='font-face-apercu'
-                        style={{
-                            background: '#979FD4',
-                            fontSize: 20,
-                            paddingTop: 15,
-                            paddingBottom: 15,
-                            width: 200,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#000',
-                        }}
-                    >
-                        Skip Question
-                    </Button>
-                    <Button
-                        onClick={handleStartCaptureClick}
-                        type='primary'
-                        icon={<PlayCircleOutlined />}
-                        size={'large'}
-                        className='font-face-apercu'
-                        style={{
-                            background: '#4849B8',
-                            fontSize: 20,
-                            paddingTop: 15,
-                            paddingBottom: 15,
-                            width: 200,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        Start Recording
-                    </Button>
-                </div>
-            )}
-            {/*recordedChunks.length > 0 && capturing === DONE && (
+                {capturing === RECORDING ? (
+                    <div className='record-action-buttons'>
+                        <Button
+                            onClick={handleStopCaptureClick}
+                            type='primary'
+                            icon={<CloseCircleOutlined />}
+                            size={'large'}
+                            className='font-face-apercu'
+                            style={{
+                                background: '#4849B8',
+                                fontSize: 20,
+                                paddingTop: 15,
+                                paddingBottom: 15,
+                                width: 200,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            Stop Recording
+                        </Button>
+                    </div>
+                ) : capturing === DONE ? (
+                    <div className='record-action-buttons'>
+                        <Button
+                            onClick={restartQuestion}
+                            type='primary'
+                            icon={<FastForwardOutlined />}
+                            size={'large'}
+                            className='font-face-apercu'
+                            style={{
+                                background: '#979FD4',
+                                fontSize: 20,
+                                paddingTop: 15,
+                                paddingBottom: 15,
+                                width: 200,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#000',
+                            }}
+                        >
+                            Restart
+                        </Button>
+                        <Button
+                            onClick={() => sendVideoTranscript(transcript)}
+                            type='primary'
+                            icon={<PlayCircleOutlined />}
+                            size={'large'}
+                            className='font-face-apercu'
+                            style={{
+                                background: '#4849B8',
+                                fontSize: 20,
+                                paddingTop: 15,
+                                paddingBottom: 15,
+                                width: 200,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                ) : (
+                    <div className='record-action-buttons'>
+                        <Button
+                            onClick={nextQuestion}
+                            type='primary'
+                            icon={<FastForwardOutlined />}
+                            size={'large'}
+                            className='font-face-apercu'
+                            style={{
+                                background: '#979FD4',
+                                fontSize: 20,
+                                paddingTop: 15,
+                                paddingBottom: 15,
+                                width: 200,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#000',
+                            }}
+                        >
+                            Skip Question
+                        </Button>
+                        <Button
+                            onClick={handleStartCaptureClick}
+                            type='primary'
+                            icon={<PlayCircleOutlined />}
+                            size={'large'}
+                            className='font-face-apercu'
+                            style={{
+                                background: '#4849B8',
+                                fontSize: 20,
+                                paddingTop: 15,
+                                paddingBottom: 15,
+                                width: 200,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            Start Recording
+                        </Button>
+                    </div>
+                )}
+                {/*recordedChunks.length > 0 && capturing === DONE && (
                 <div style={{ flexDirection: 'column' }}>
                     <button onClick={handleDownload}>Download</button>
                 </div>
             )*/}
+            </Spin>
         </div>
     );
 }
