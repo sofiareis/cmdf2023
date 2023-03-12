@@ -1,6 +1,7 @@
 import React from "react";
 import './Landing.css'
 import image from './image.svg'
+import { Button } from "antd";
 function Landing() {
     return (
         <div className="Landing">
@@ -12,8 +13,11 @@ function Landing() {
                         CareerCue
                       </h1>
                       <p className="Landing-h1-desc">
-                        Some words here
+                      Get interview-ready with ease - Your success starts here
                       </p>
+                    </div>
+                    <div className="Landing-button">
+                      <Button type="primary">Press me</Button>
                     </div>
                   </div>
                   <img src={image} className="Landing-logo" alt="image" />
