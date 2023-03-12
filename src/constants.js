@@ -28,7 +28,7 @@ export const QUESTION_BANK = [
     'Tell me about a time when you had to provide constructive criticism.',
     'Describe a project where you had to work with a tight deadline.',
     'Give me an example of a time when you had to handle a difficult team member.',
-    'Tell me about a time when you had to work with someone from a different culture.',
+    'Tell me about a time when you had to work with someone from a different department.',
     'Describe a situation where you had to balance competing priorities.',
     'Can you give me an example of a time when you had to negotiate with someone?',
     'Tell me about a time when you had to be innovative.',

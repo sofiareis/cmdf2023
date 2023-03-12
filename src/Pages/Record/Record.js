@@ -35,8 +35,6 @@ function Record() {
     const webcamRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const [recordedChunks, setRecordedChunks] = useState([]);
-    const [clarifyFeedback, setClarityFeedback] = useState('');
-    const [timeFeedback, setTimeFeedback] = useState('');
     // capture states: recording, done, next_question
     const [capturing, setCapturing] = useState(NEXT_QUESTION);
 
@@ -54,13 +52,13 @@ function Record() {
     } = useSpeechRecognition();
 
     let navigate = useNavigate();
-    const routeChange = (wordChoice, tone, timing) => {
+    const routeChange = (wordChoice, tone, clarity, timing) => {
         navigate('/feedback', {
             state: {
                 question: question,
                 wordChoice: wordChoice,
                 tone: tone,
-                clarity: clarifyFeedback,
+                clarity: clarity,
                 timing: timing,
             },
         });
@@ -171,6 +169,7 @@ function Record() {
                 routeChange(
                     response['word_choice'],
                     response['sentiment'],
+                    response['clarity'],
                     mapTimeToSeconds(time)
                 );
             });

@@ -40,13 +40,17 @@ function Feedback() {
 
     // returns a num between 1 and 100
     const mapFeedbackToProgress = (feedback) => {
-        if (feedback === 'negative' || feedback === 'casual') {
+        if (
+            feedback === 'negative' ||
+            feedback === 'casual' ||
+            feedback == 'unclear'
+        ) {
             return 20;
         } else if (feedback == 'neutral') {
             return 60;
         }
         // good feedback
-        return 80;
+        return 100;
     };
 
     const mapTimeToProgress = (time) => {
@@ -84,9 +88,9 @@ function Feedback() {
                                 strokeColor={'#4849B8'}
                                 className='progress-bar'
                             />
-                            <div className='progress-desc'>
-                                <div>casual</div>
-                                <div>professional</div>
+                            <div className='font-face-apercu progress-desc'>
+                                <div>Casual</div>
+                                <div>Professional</div>
                             </div>
                         </div>
                     </div>
@@ -103,9 +107,9 @@ function Feedback() {
                                 strokeColor={'#4849B8'}
                                 className='progress-bar'
                             />
-                            <div className='progress-desc'>
-                                <div>unclear</div>
-                                <div>clear</div>
+                            <div className='font-face-apercu progress-desc'>
+                                <div>Unclear</div>
+                                <div>Clear</div>
                             </div>
                         </div>
                     </div>
@@ -124,9 +128,9 @@ function Feedback() {
                                 strokeColor={'#4849B8'}
                                 className='progress-bar'
                             />
-                            <div className='progress-desc'>
-                                <div>negative</div>
-                                <div>positive</div>
+                            <div className='font-face-apercu progress-desc'>
+                                <div>Negative</div>
+                                <div>Positive</div>
                             </div>
                         </div>
                     </div>
@@ -143,9 +147,9 @@ function Feedback() {
                                 strokeColor={'#4849B8'}
                                 className='progress-bar'
                             />
-                            <div className='progress-desc'>
-                                <div>too short/long</div>
-                                <div>perfect timing</div>
+                            <div className='font-face-apercu progress-desc'>
+                                <div>Too Short/Long</div>
+                                <div>Perfect Timing</div>
                             </div>
                         </div>
                     </div>
