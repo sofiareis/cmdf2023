@@ -1,0 +1,120 @@
+
+.fb-background {
+    height: 100vh;
+    width: 100vw;
+    background-color: hsla(0, 0%, 100%, 1);
+    background-image: radial-gradient(
+            at 56% 30%,
+            hsla(156, 0%, 100%, 1) 0px,
+            transparent 50%
+        ),
+        radial-gradient(at 24% 78%, hsla(157, 15%, 91%, 1) 0px, transparent 50%),
+        radial-gradient(
+            at 66% 12%,
+            hsla(276, 100%, 87%, 1) 0px,
+            transparent 50%
+        ),
+        radial-gradient(
+            at 91% 55%,
+            hsla(161, 100%, 71%, 0.58) 0px,
+            transparent 50%
+        ),
+        radial-gradient(at 0% 50%, hsla(276, 90%, 79%, 1) 0px, transparent 50%);
+}
+
+.fb-header{
+    display: flex;
+    flex-direction: column;
+    height: 30%;
+    width: 100%;
+    margin-left: 5%;
+}
+
+.fb-title{
+  font-family: 'Open Sans';
+  font-style: bold;
+  font-weight: 400;
+  font-size: 50px;
+  color: #000000;
+}
+
+.fb-question{
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  margin-top: -1%;
+  color: #000000;
+}
+
+.all-4-boxes{
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: -5%;
+}
+
+.box-2-in-a-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 3%;
+}
+
+.box{
+    box-sizing: border-box;
+    width: 300px;
+    height: 200px;
+    background: #FFFFFF;
+    border-radius: 30px;
+    border-color: #ACABAB;
+}
+
+.box-style{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.box-title{
+    font-family: 'Apercu-Medium';
+    font-style: bold;
+    font-weight: 400;
+    font-size: 30px;
+    color: #000000;
+}
+
+.box-desc{
+    font-family: 'Apercu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    color: #000000;
+    margin-top: -3%;
+    margin-left: 2%;
+    padding-bottom: 5%;
+}
+
+.progress{
+    margin-left: 2%;
+}
+
+.progress-desc{
+    margin-left: 2%;
+    display: flex;
+    flex-direction: row;
+}
+
+.progress-desc2{
+    padding-left: 100%;
+}
+
+.buttons-in-a-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 5%;
+    padding-left: 30%;
+    padding-right:30%;
+}
