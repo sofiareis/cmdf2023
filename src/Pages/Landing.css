@@ -1,174 +1,150 @@
 .Landing {
-  background: #FFFFFF;
-  height: 100%;
-  width: 100%;
+    background: #ffffff;
+    height: 100%;
+    width: 100%;
 }
 
 .Landing-header {
-  display: flex;
-  flex-direction: column;
-  height: 30%;
-  width: 100%;
-  background: rgba(188, 234, 204, 0.36);
+    display: flex;
+    flex-direction: column;
+    height: 30%;
+    width: 100%;
+    background: rgba(188, 234, 204, 0.36);
 }
 
-.Landing-title{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  
-  gap: 48px;
+.Landing-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
+    gap: 48px;
 }
 
-.Landing-comp{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-
+.Landing-comp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.Landing-wrap{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 10px;
-  align-items: center;
+.Landing-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    align-items: center;
 }
 
-
-.Landing-h1{
-  display: flex;
-  flex-direction: row;
-  font-family: 'Open Sans Hebrew';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 96px;
-  text-align: center;
-  margin: 0px;
-  color: #000000;
+.Landing-h1 {
+    display: flex;
+    flex-direction: row;
+    font-size: 96px;
+    text-align: center;
+    margin: 0px;
+    color: #000000;
 }
 
-.Landing-h1-desc{
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 28px;
-  text-align: center;
-  padding-bottom: 15px;
-  color: #000000;
+.Landing-h1-desc {
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+    padding-bottom: 15px;
+    color: #000000;
 }
 
-.Landing-button{
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 20px 24px;
+.Landing-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 24px;
 
-background: #4849B8;
-border: 1px solid #E8A0EE;
-box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
-border-radius: 36px;
+    background: #4849b8;
+    border: 1px solid #e8a0ee;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+    border-radius: 36px;
 
-/* text */
-font-family: 'Apercu';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-text-align: center;
-color: #FFFFFF;
+    /* text */
+    font-family: 'Apercu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    color: #ffffff;
 }
 
-
-.Landing-body{
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-  position: absolute;
-  height: 70%;
-  padding-left: 32px;
-  background: #FFFFFF;
-  margin-left: 50px;
-  margin-right: 50px;
+.Landing-body {
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    position: absolute;
+    height: 70%;
+    padding-left: 32px;
+    background: #ffffff;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
-.About-h2{
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 38px;
+.About-h2 {
+    font-size: 30px;
+    line-height: 38px;
 }
 
-.Landing-about{
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+.Landing-about {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
-.About-wrapper{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.About-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.About-title{
-/* Headline XS/Desktop/Semibold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 22px;
-/* identical to box height, or 136% */
-letter-spacing: -0.01em;
-color: #272D37;
-
+.About-title {
+    /* Headline XS/Desktop/Semibold */
+    font-size: 25px;
+    /* identical to box height, or 136% */
+    letter-spacing: -0.01em;
+    color: #272d37;
 }
 
-.About-desc{
-/* Text L/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 24px;
-/* or 150% */
-letter-spacing: -0.1px;
-color: #5F6D7E;
-margin-left: 60px;
+.About-desc {
+    /* Text L/Regular */
+    font-size: 20px;
+    line-height: 24px;
+    /* or 150% */
+    letter-spacing: -0.1px;
+    color: #5f6d7e;
+    margin-left: 60px;
 }
 
-.About-descr{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.About-descr {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.About-container{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+.About-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
-
-.About-Image{
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-margin-left: 40px;
+.About-Image {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 40px;
 }
 
-
-.About-Icon{
-  margin-right: 10px;
-  margin-top: 15px;
+.About-Icon {
+    margin-right: 10px;
+    margin-top: 15px;
 }
-
-
