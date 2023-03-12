@@ -85,8 +85,7 @@ function Record() {
     ]);
 
     const handleStopCaptureClick = useCallback(() => {
-        console.log(DONE);
-        setCapturing(false);
+        setCapturing(DONE);
         mediaRecorderRef.current.stop();
         SpeechRecognition.stopListening();
     }, [mediaRecorderRef, setCapturing]);
@@ -109,6 +108,7 @@ function Record() {
     }, [recordedChunks]);
 
     const sendVideoTranscript = (response) => {
+        setCapturing(NEXT_QUESTION);
         console.log('sending transcript to server');
         const encodedResponse = encodeURIComponent(response);
         fetch(`http://127.0.0.1:5000/feedback?answer=${encodedResponse}`, {
@@ -116,12 +116,13 @@ function Record() {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log(response['sentiment']);
+                console.log(response);
                 setFeedback('sentiment: ' + response['sentiment']);
             });
     };
 
     const nextQuestion = () => {
+        setCapturing(NEXT_QUESTION);
         // increment question index
         let nextQuestionIndex = questionIndex + 1;
 
@@ -137,29 +138,15 @@ function Record() {
         console.log(question);
     };
 
+    const restartQuestion = useCallback(() => {
+        setCapturing(NEXT_QUESTION);
+        mediaRecorderRef.current.stop();
+        SpeechRecognition.stopListening();
+    }, [mediaRecorderRef, setCapturing]);
+
     return (
         <div className='record-background'>
             <div className='record-spacer' />
-            {capturing === RECORDING && (
-                <Button
-                    type='primary'
-                    icon={<PlayCircleOutlined />}
-                    size={'large'}
-                    className='font-face-apercu'
-                    style={{
-                        background: '#4849B8',
-                        fontSize: 20,
-                        paddingTop: 15,
-                        paddingBottom: 15,
-                        width: 200,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    Submit
-                </Button>
-            )}
             <VideoRecorder webcamRef={webcamRef} />
             <div className='font-face-apercu record-question'>
                 <p className='record-question-text' style={{ fontSize: 25 }}>
@@ -169,7 +156,29 @@ function Record() {
             {capturing === RECORDING ? (
                 <div className='record-action-buttons'>
                     <Button
-                        onClick={nextQuestion}
+                        onClick={handleStopCaptureClick}
+                        type='primary'
+                        icon={<CloseCircleOutlined />}
+                        size={'large'}
+                        className='font-face-apercu'
+                        style={{
+                            background: '#4849B8',
+                            fontSize: 20,
+                            paddingTop: 15,
+                            paddingBottom: 15,
+                            width: 200,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        Stop Recording
+                    </Button>
+                </div>
+            ) : capturing === DONE ? (
+                <div className='record-action-buttons'>
+                    <Button
+                        onClick={restartQuestion}
                         type='primary'
                         icon={<FastForwardOutlined />}
                         size={'large'}
@@ -189,9 +198,9 @@ function Record() {
                         Restart
                     </Button>
                     <Button
-                        onClick={handleStopCaptureClick}
+                        onClick={() => sendVideoTranscript(transcript)}
                         type='primary'
-                        icon={<CloseCircleOutlined />}
+                        icon={<PlayCircleOutlined />}
                         size={'large'}
                         className='font-face-apercu'
                         style={{
@@ -205,7 +214,7 @@ function Record() {
                             justifyContent: 'center',
                         }}
                     >
-                        Stop Recording
+                        Submit
                     </Button>
                 </div>
             ) : (
@@ -251,16 +260,11 @@ function Record() {
                     </Button>
                 </div>
             )}
-            {recordedChunks.length > 0 && capturing !== RECORDING && (
+            {/*recordedChunks.length > 0 && capturing === DONE && (
                 <div style={{ flexDirection: 'column' }}>
                     <button onClick={handleDownload}>Download</button>
-                    <button onClick={() => sendVideoTranscript(transcript)}>
-                        Submit Response
-                    </button>
                 </div>
-            )}
-            {/*<p>{transcript}</p>
-            <p>{feedback}</p>*/}
+            )*/}
         </div>
     );
 }
