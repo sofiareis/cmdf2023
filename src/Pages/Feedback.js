@@ -12,9 +12,14 @@ function Feedback() {
     const wordChoice = location.state.wordChoice;
     const tone = location.state.tone;
     const clarity = location.state.clarity;
+    const structure = location.state.structure;
+    const specific = location.state.specific;
     const timing = location.state.timing;
     const response = location.state.response;
 
+    //console.log(location.state)
+    //console.log(specific)
+    
     let navigate = useNavigate();
     const recordAgain = () => {
         saveFeedback();
@@ -85,6 +90,8 @@ function Feedback() {
                 wordChoice.charAt(0).toUpperCase() + wordChoice.slice(1),
             tone: tone.charAt(0).toUpperCase() + tone.slice(1),
             clarity: clarity.charAt(0).toUpperCase() + clarity.slice(1),
+            structure: structure.charAt(0).toUpperCase() + structure.slice(1),
+            specific: specific.charAt(0).toUpperCase() + specific.slice(1),
             timing: timing,
         };
         let sessionFeedback = localStorage.getItem('sessionFeedback');
@@ -109,7 +116,9 @@ function Feedback() {
         if (
             feedback === 'negative' ||
             feedback === 'casual' ||
-            feedback == 'unclear'
+            feedback == 'unclear' ||
+            feedback == 'unstructured' ||
+            feedback == 'generic'
         ) {
             return 20;
         } else if (feedback == 'neutral') {
@@ -216,6 +225,46 @@ function Feedback() {
                             <div className='font-face-apercu progress-desc'>
                                 <div>Too Short/Long</div>
                                 <div>Perfect Timing</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='box-2-in-a-row'>
+                    <div className='box'>
+                        <div className='box-style'>
+                            <h2 className='box-title'>Structure</h2>
+                            <p className='box-desc font-face-apercu'>
+                                Speak using the STAR method
+                            </p>
+                            <Progress
+                                percent={mapFeedbackToProgress(structure)}
+                                showInfo={false}
+                                strokeColor={'#4849B8'}
+                                className='progress-bar'
+                            />
+                            <div className='font-face-apercu progress-desc'>
+                                <div>Unstructured</div>
+                                <div>Structured</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='box'>
+                        <div className='box-style'>
+                            <h2 className='box-title'>Specific and concrete</h2>
+                            <p className='box-desc font-face-apercu'>
+                                Give specific and concrete examples of your experience
+                            </p>
+                            <Progress
+                                percent={mapTimeToProgress(specific)}
+                                showInfo={false}
+                                strokeColor={'#4849B8'}
+                                className='progress-bar'
+                            />
+                            <div className='font-face-apercu progress-desc'>
+                                <div>General</div>
+                                <div>Specific</div>
                             </div>
                         </div>
                     </div>

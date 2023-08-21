@@ -53,13 +53,15 @@ function Record() {
     } = useSpeechRecognition();
 
     let navigate = useNavigate();
-    const routeChange = (wordChoice, tone, clarity, timing, response) => {
+    const routeChange = (wordChoice, tone, clarity, structure, specific, timing, response) => {
         navigate('/feedback', {
             state: {
                 question: question,
                 wordChoice: wordChoice,
                 tone: tone,
                 clarity: clarity,
+                structure: structure,
+                specific: specific,
                 timing: timing,
                 response: response,
             },
@@ -169,10 +171,13 @@ function Record() {
             .then((response) => response.json())
             .then(async (response) => {
                 console.log(response);
+                //console.log("specif" + response['specific'])
                 routeChange(
                     response['word_choice'],
                     response['sentiment'],
                     response['clarity'],
+                    response['structure'],
+                    response['specific'],
                     mapTimeToSeconds(time),
                     answer
                 );
