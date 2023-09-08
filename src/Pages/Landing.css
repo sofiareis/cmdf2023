@@ -17,7 +17,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
     gap: 48px;
 }
 
@@ -96,7 +95,7 @@
 .Landing-about {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .About-wrapper {
@@ -147,4 +146,175 @@
 .About-Icon {
     margin-right: 10px;
     margin-top: 15px;
+}
+
+
+/* Smaller screens adapt */
+/* 1200 */
+@media screen and (max-width: 1200px) {
+    .Landing-title {
+        gap: 20px;
+    }
+    .Landing-wrap{
+        padding-left: 30px;
+    }
+    .Landing-body{
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+    .Landing-h1{
+        font-size: 80px;
+    }
+    .Landing-h1-desc{
+        font-size: 18px;
+    }
+    .Landing-logo{
+        max-width: 450px;
+    }
+    .Landing-image{
+        max-width: 410px;
+    }
+    .About-title{
+        font-size: 23px;
+    }
+    .About-desc{
+        margin-left: 50px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .Landing-title {
+        margin: 20px 0px;
+    }
+    .Landing-h1{
+        font-size: 70px;
+    }
+    .Landing-h1-desc{
+        font-size: 16px;
+    }
+    .Landing-logo{
+        max-height: 350px;
+        max-width: 350px;
+    }
+    .Landing-image{
+        max-width: 380px;
+    }
+    .About-h2{
+        font-size: 26px;
+    }
+    .About-title{
+        font-size: 21px;
+    }
+    .About-Icon{
+        max-height: 45px;
+        max-width: 45px;
+    }
+    .About-desc{
+        margin-left: 40px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 19px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .Landing-h1{
+        font-size: 58px;
+    }
+    .Landing-h1-desc{
+        font-size: 15px;
+    }
+    .Landing-logo{
+        max-height: 350px;
+        max-width: 250px;
+    }
+    .Landing-button{
+        font-size: 18px;
+    }
+    .Landing-body{
+        padding-left: 0px;
+        position: relative;
+    }
+    .Landing-about{
+        flex-direction: column;
+    }
+    .About-h2{
+        font-size: 24px;
+    }
+    .About-title{
+        font-size: 21px;
+    }
+    .About-Icon{
+        max-height: 40px;
+        max-width: 40px;
+    }
+    .About-desc{
+        margin-left: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 19px;
+    }
+    .About-Image{
+        margin-left: 0px;
+    }
+    .Landing-image{
+        padding-top: 30px;
+        padding-bottom: 20px;
+    }
+
+
+}
+
+@media screen and (max-width: 600px) {
+    .Landing-wrap{
+        padding: 20px 20px;
+    }
+   .Landing-h1{
+        font-size: 55px;
+    }
+    .Landing-h1-desc{
+        font-size: 15px;
+    }
+    .Landing-logo{
+        max-height: 350px;
+        max-width: 250px;
+    }
+    .Landing-button{
+        font-size: 18px;
+    }
+    .Landing-title{
+        flex-direction: column;
+    }
+    .Landing-body{
+        padding-left: 0px;
+        position: relative;
+    }
+    .Landing-image{
+        max-width: 280px;
+    }
+    .About-Image{
+        margin-left: 0px;
+    }
+    .About-h2{
+        font-size: 20px;
+    }
+    .About-title{
+        font-size: 19px;
+    }
+    .About-Icon{
+        max-height: 30px;
+        max-width: 30px;
+    }
+    .About-desc{
+        margin-left: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 17px;
+    }
+    .Landing-image{
+        padding-top: 30px;
+        padding-bottom: 20px;
+    }
+
+
 }
